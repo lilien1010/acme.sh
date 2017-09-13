@@ -203,11 +203,17 @@ _rest() {
   else
     response="$(_get "$url")"
   fi
-
+    
   if [ "$?" != "0" ]; then
     _err "error $ep"
     return 1
   fi
+  
+  if ! _contains "$response" 'code":1'; then
+     _err "error $response"
+     return 1
+  fi
+  
   _debug2 response "$response"
 
   _contains "$response" '"code":1'
